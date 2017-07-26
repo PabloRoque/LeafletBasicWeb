@@ -1,0 +1,32 @@
+---
+title: "Leaflet-Week2Assignment"
+author: "PabloRoque"
+date: "2017 M07 26"
+output: html_document
+---
+
+```{r setup, include=FALSE, echo = FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bike paths in Barcelona
+
+This web shows a map of the different bike paths available in Barcelona.
+
+```{r, eval=TRUE, results="hide", echo = FALSE, message=FALSE, warning=FALSE}
+library(rgdal)
+library(leaflet)
+
+## Loading data
+# ogrInfo("carril_bici") # Gives information about the Shapefile
+carril_bici <- readOGR("carril_bici")
+proj_carril_bici <- sp::spTransform(carril_bici, CRS("+init=epsg:4326"))
+```
+
+```{r, eval=TRUE, echo = FALSE, message=FALSE, warning=FALSE}
+## Plotting with leaflet
+m <- leaflet() %>% addTiles()
+m <-  m %>% addPolylines(data = proj_carril_bici, color = "blue", weight = 4)
+m %>% setView(lng = 2.154007, lat = 41.390205, zoom = 12) # set centre and extent of map
+```
+
